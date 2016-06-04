@@ -17,7 +17,7 @@ if [ ! -f "JSON.sh/JSON.sh" ]; then
 fi
 
 source commands.sh source
-URL='https://api.telegram.org/bot'$TOKEN
+URL='https://api.pwrtelegram.xyz/bot'$TOKEN
 
 
 SCRIPT="$0"
@@ -37,7 +37,7 @@ ME_URL=$URL'/getMe'
 ME=$(curl -s $ME_URL | ./JSON.sh/JSON.sh -s | egrep '\["result","username"\]' | cut -f 2 | cut -d '"' -f 2)
 
 
-FILE_URL='https://api.telegram.org/file/bot'$TOKEN'/'
+FILE_URL='https://api.pwrtelegram.xyz/file/bot'$TOKEN'/'
 UPD_URL=$URL'/getUpdates?offset='
 GET_URL=$URL'/getFile'
 OFFSET=0
@@ -68,6 +68,7 @@ send_message() {
 	fi
 	if [ "$file" != "" ]; then
 		send_file "$chat" "$file" "$text"
+		rm "$file"
 		local sent=y
 	fi
 	if [ "$lat" != "" -a "$long" != "" -a "$address" = "" -a "$title" = "" ]; then
@@ -109,64 +110,64 @@ send_html_message() {
 answer_inline_query() {
 	case $2 in
 		"article")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","title":"'$3'","message_text":"'$4'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","title":"'$3'","message_text":"'$4'"}]'
 		;;
 		"photo")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","photo_url":"'$3'","thumb_url":"'$4'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","photo_url":"'$3'","thumb_url":"'$4'"}]'
 		;;
 		"gif")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","gif_url":"'$3'", "thumb_url":"'$4'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","gif_url":"'$3'", "thumb_url":"'$4'"}]'
 		;;
 		"mpeg4_gif")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","mpeg4_url":"'$3'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","mpeg4_url":"'$3'"}]'
 		;;
 		"video")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","video_url":"'$3'","mime_type":"'$4'","thumb_url":"'$5'","title":"'$6'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","video_url":"'$3'","mime_type":"'$4'","thumb_url":"'$5'","title":"'$6'"}]'
 		;;
 		"audio")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","audio_url":"'$3'","title":"'$4'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","audio_url":"'$3'","title":"'$4'"}]'
 		;;
 		"voice")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","voice_url":"'$3'","title":"'$4'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","voice_url":"'$3'","title":"'$4'"}]'
 		;;
 		"document")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","title":"'$3'","caption":"'$4'","document_url":"'$5'","mime_type":"'$6'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","title":"'$3'","caption":"'$4'","document_url":"'$5'","mime_type":"'$6'"}]'
 		;;
 		"location")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","latitude":"'$3'","longitude":"'$4'","title":"'$5'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","latitude":"'$3'","longitude":"'$4'","title":"'$5'"}]'
 		;;
 		"venue")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","latitude":"'$3'","longitude":"'$4'","title":"'$5'","address":"'$6'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","latitude":"'$3'","longitude":"'$4'","title":"'$5'","address":"'$6'"}]'
 		;;
 		"contact")
-			InlineQueryResult='[{"type":"'$2'","id":"$RANDOM","phone_number":"'$3'","first_name":"'$4'"}]'
+			InlineQueryResult='[{"type":"'$2'","id":"'$RANDOM'","phone_number":"'$3'","first_name":"'$4'"}]'
 		;;
 
 		# Cached media stored in Telegram server
 
 		"cached_photo")
-			InlineQueryResult='[{"type":"photo","id":"$RANDOM","photo_file_id":"'$3'"}]'
+			InlineQueryResult='[{"type":"photo","id":"'$RANDOM'","photo_file_id":"'$3'"}]'
 		;;
 		"cached_gif")
-			InlineQueryResult='[{"type":"gif","id":"$RANDOM","gif_file_id":"'$3'"}]'
+			InlineQueryResult='[{"type":"gif","id":"'$RANDOM'","gif_file_id":"'$3'"}]'
 		;;
 		"cached_mpeg4_gif")
-			InlineQueryResult='[{"type":"mpeg4_gif","id":"$RANDOM","mpeg4_file_id":"'$3'"}]'
+			InlineQueryResult='[{"type":"mpeg4_gif","id":"'$RANDOM'","mpeg4_file_id":"'$3'"}]'
 		;;
 		"cached_sticker")
-			InlineQueryResult='[{"type":"sticker","id":"$RANDOM","sticker_file_id":"'$3'"}]'
+			InlineQueryResult='[{"type":"sticker","id":"'$RANDOM'","sticker_file_id":"'$3'"}]'
 		;;
 		"cached_document")
-			InlineQueryResult='[{"type":"document","id":"$RANDOM","title":"'$3'","document_file_id":"'$4'"}]'
+			InlineQueryResult='[{"type":"document","id":"'$RANDOM'","title":"'$3'","document_file_id":"'$4'"}]'
 		;;
 		"cached_video")
-			InlineQueryResult='[{"type":"video","id":"$RANDOM","video_file_id":"'$3'","title":"'$4'"}]'
+			InlineQueryResult='[{"type":"video","id":"'$RANDOM'","video_file_id":"'$3'","title":"'$4'"}]'
 		;;
 		"cached_voice")
-			InlineQueryResult='[{"type":"voice","id":"$RANDOM","voice_file_id":"'$3'","title":"'$4'"}]'
+			InlineQueryResult='[{"type":"voice","id":"'$RANDOM'","voice_file_id":"'$3'","title":"'$4'"}]'
 		;;
 		"cached_audio")
-			InlineQueryResult='[{"type":"audio","id":"$RANDOM","audio_file_id":"'$3'"}]'
+			InlineQueryResult='[{"type":"audio","id":"'$RANDOM'","audio_file_id":"'$3'"}]'
 		;;
 
 	esac
@@ -278,6 +279,7 @@ inproc() {
 process_client() {
 	# Message
 	MESSAGE=$(echo "$res" | egrep '\["result",0,"message","text"\]' | cut -f 2 | cut -d '"' -f 2)
+	MESSAGE_ID=$(echo "$res" | egrep '\["result",0,"message","id"\]' | cut -f 2 | cut -d '"' -f 2)
 
 	# User
 	USER[ID]=$(echo "$res" | egrep '\["result",0,"message","chat","id"\]' | cut -f 2)
@@ -344,6 +346,7 @@ case "$1" in
 			line=
 			read -t 10 line
 			[ "$line" != "" -a "$line" != "imprettydarnsuredatdisisdaendofdacmd" ] && send_message "$2" "$line"
+
 		done </tmp/$3
 		rm -r /tmp/$3
 		;;

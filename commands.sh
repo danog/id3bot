@@ -11,7 +11,7 @@ if [ "$1" = "source" ];then
 	# To enable this option in your bot, send the /setinline command to @BotFather.
 	INLINE=0
 	# Set to .* to allow sending files from all locations
-	FILE_REGEX='/home/user/allowed/.*'
+	FILE_REGEX='.*'
 else
 	if ! tmux ls | grep -v send | grep -q $copname; then
 		[ ! -z ${URLS[*]} ] && {
@@ -48,24 +48,19 @@ else
 		fi
 	fi
 	case $MESSAGE in
-		'/question')
-			startproc "./question"
-			;;
 		'/info')
 			send_message "${USER[ID]}" "This is bashbot, the Telegram bot written entirely in bash."
 			;;
 		'/start')
-			send_message "${USER[ID]}" "This is bashbot, the Telegram bot written entirely in bash.
-It features background tasks and interactive chats, and can serve as an interface for CLI programs.
-It currently can send, recieve and forward messages, custom keyboards, photos, audio, voice, documents, locations and video files.
+			send_message "${USER[ID]}" "This bot can be used to edit the id3 tags of audio files.
 Available commands:
-• /start: Start bot and get this message.
-• /info: Get shorter info message about this bot.
-• /question: Start interactive chat.
+• /start: Start bot and start editing process.
 • /cancel: Cancel any currently running interactive chats.
-Written by Drew (@topkecleon) and Daniil Gentili (@danogentili).
-http://github.com/topkecleon/telegram-bot-bash
+Written Daniil Gentili (@danogentili).
+http://github.com/danog/id3bot
 "
+			startproc "./question"
+
 			;;
 		'/cancel')
 			if tmux ls | grep -q $copname; then killproc && send_message "${USER[ID]}" "Command canceled.";else send_message "${USER[ID]}" "No command is currently running.";fi

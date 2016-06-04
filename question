@@ -3,17 +3,21 @@
 # This file is public domain in the USA and all free countries.
 # Elsewhere, consider it to be WTFPLv2. (wtfpl.net/txt/copying)
 
-echo "Why hello there.
-Would you like some tea (y/n)?"
-read answer
-[[ $answer =~ ^([yY][eE][sS]|[yY])$ ]] && echo "OK then, here you go: http://www.rivertea.com/blog/wp-content/uploads/2013/12/Green-Tea.jpg" || echo "OK then."
-until [ "$SUCCESS" = "y" ] ;do
-	echo 'Do you like Music? mykeyboardstartshere "Yass!" "No"'
-	read answer
-	case $answer in
-		'Yass!') echo "Goody!";SUCCESS=y;;
-		'No') echo "Well that's weird.";SUCCESS=y;;
-		*) SUCCESS=n;;
+echo "Send me the audio files that you whish to modify (up to 1.5 gigabytes thanks to @pwrtelegram)"
+read url
+url=$(echo "$url" | sed 's/^\s*//g;s/\s*$//g')
+name="$RANDOM"$(basename "$url")
+wget "$url" -qO "$name" || { echo "Couldn't download file."; rm "$NAME"; exit 1; }
+help=$(id3v2 --help 2>&1)
+echo "Now send me the following tags (send null to ignore tag)"
+for f in artist album song comment genre year track;do
+	echo "$help" | sed '/\-\-'$f'/!d;s/.*\-\-'$f'//g'
+	case "$f" in
+		"comment") echo "Set the comment information (both description and language optional)";;
+		"genre") id3v2 -L | tr -s '\n' ", " | tr -d '&';echo;;
 	esac
+	read "read"
+	[ "$read" != "null" ] && id3v2 --$f "$read" "$name"
 done
+echo "myfilelocationstartshere $name"
 exit
