@@ -190,7 +190,14 @@ send_keyboard() {
 }
 
 get_file() {
-	[ "$1" != "" ] && echo $FILE_URL$(curl -s "$GET_URL" -F "file_id=$1" | ./JSON.sh/JSON.sh -s | egrep '\["result","file_path"\]' | cut -f 2 | cut -d '"' -f 2)
+	[ "$1" == "" ] && return
+	dlres=
+	while [ "$dlres" = "" ] || [ "$dlres" == '{"ok":true,"error_code":202,"description":"File is already being downloaded. Please try again later."}' ];do
+		dlres=$(curl -s "$GET_URL" -F "file_id=$1")
+		send_message "${USER[ID]}" "Downloading the file..."
+	done
+	echo $FILE_URL$(echo "$dlres" | ./JSON.sh/JSON.sh -s | egrep '\["result","file_path"\]' | cut -f 2 | cut -d '"' -f 2)
+
 }
 
 send_file() {
@@ -233,7 +240,7 @@ send_file() {
 			;;
 	esac
 	send_action $chat_id $STATUS
-	res=$(curl -s "$CUR_URL" -F "chat_id=$chat_id" -F "$WHAT=@$file" -F "caption=$3")
+	res=$(curl "$URL"/sendfile -F "chat_id=$chat_id" -F "file=@$file")
 }
 
 # typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location

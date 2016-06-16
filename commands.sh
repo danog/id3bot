@@ -56,8 +56,9 @@ else
 Available commands:
 • /start: Start bot and start editing process.
 • /cancel: Cancel any currently running interactive chats.
-Written Daniil Gentili (@danogentili).
-http://github.com/danog/id3bot
+Written by Daniil Gentili (@danogentili, https://daniil.it).
+Check out my other bots: @video_dl_bot, @mklwp_bot, @caption_ai_bot, @cowsaysbot, @cowthinksbot, @figletsbot, @lolcatzbot, @filtersbot, @id3bot, @pwrtelegrambot
+https://github.com/danog/id3bot
 "
 			startproc "./question"
 
