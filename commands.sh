@@ -1,8 +1,7 @@
 #!/bin/bash
 # Edit your commands in this file.
 
-# This file is public domain in the USA and all free countries.
-# Elsewhere, consider it to be WTFPLv2. (wtfpl.net/txt/copying)
+# Licensed under gplv3
 
 if [ "$1" = "source" ];then
 	# Place the token in the token file
@@ -14,8 +13,6 @@ if [ "$1" = "source" ];then
 	FILE_REGEX='.*'
 else
 	if ! tmux ls | grep -v send | grep -q $copname; then
-		[ ! -z ${URLS[*]} ] && {
-		}
 		[ ! -z ${LOCATION[*]} ] && send_location "${USER[ID]}" "${LOCATION[LATITUDE]}" "${LOCATION[LONGITUDE]}"
 
 		# Inline
@@ -51,8 +48,18 @@ else
 		'/start')
 			send_message "${USER[ID]}" "This bot can be used to edit the id3 tags of audio files.
 Available commands:
-• /start: Start bot and start editing process.
-• /cancel: Cancel any currently running interactive chats.
+• /start:		Start bot and start editing process.
+• /cancel:		Cancel any currently running interactive chats.
+• /artist "ARTIST"	Set the artist information
+• /album "ALBUM"	Set the album title information
+• /song "SONG"		Set the song title information
+• /comment "DESCRIPTION":"COMMENT":"LANGUAGE"	Set the comment information (both description and language optional)
+• /genre num		Set the genre number
+• /year  num		Set the year
+• /track num/num	Set the track number/(optional) total tracks
+• /art   URL or image	Set the album art.
+• /done			End the process
+
 Written by Daniil Gentili (@danogentili, https://daniil.it).
 Check out my other bots: @video_dl_bot, @mklwp_bot, @caption_ai_bot, @cowsaysbot, @cowthinksbot, @figletsbot, @lolcatzbot, @filtersbot, @id3bot, @pwrtelegrambot
 https://github.com/danog/id3bot
@@ -64,7 +71,7 @@ https://github.com/danog/id3bot
 			if tmux ls | grep -q $copname; then killproc && send_message "${USER[ID]}" "Command canceled.";else send_message "${USER[ID]}" "No command is currently running.";fi
 			;;
 		*)
-			if tmux ls | grep -v send | grep -q $copname;then inproc; else send_message "${USER[ID]}" "$MESSAGE" "safe";fi
+			if tmux ls | grep -v send | grep -q $copname;then inproc; fi
 			;;
 	esac
 fi
