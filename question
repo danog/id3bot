@@ -6,8 +6,8 @@ echo "Send me the audio files that you wish to modify (up to 1.5 gigabytes thank
 read url
 url=$(echo "$url" | sed 's/^\s*//g;s/\s*$//g')
 name="$RANDOM"$(basename "$url")
-wget "$url" -qO /tmp/"$name" || { echo "Couldn't download file. Please try again in a few minutes."; rm "$NAME" &>/dev/null; exit 1; }
-mimetype "$name" | sed 's/.*\s//' | grep -qE '^audio/' || { echo "You didn't send me an audio file."; rm "$NAME" &>/dev/null; exit 1; }
+wget "$url" -qO /tmp/"$name" || { echo "Couldn't download file. Please try again in a few minutes."; rm "$name" &>/dev/null; exit 1; }
+mimetype /tmp/"$name" | sed 's/.*\s//' | grep -qE '^audio/' || { echo "You didn't send me an audio file."; rm "$name" &>/dev/null; exit 1; }
 
 help=$(id3v2 --help 2>&1)
 echo "Now send me the appropriate command to set the the id3 tags, type /done when you're done."
