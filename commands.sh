@@ -15,9 +15,6 @@ if [ "$1" = "source" ];then
 else
 	if ! tmux ls | grep -v send | grep -q $copname; then
 		[ ! -z ${URLS[*]} ] && {
-		curl -s ${URLS[*]} -o $NAME
-			send_file "${USER[ID]}" "$NAME" "$CAPTION"
-			rm "$NAME"
 		}
 		[ ! -z ${LOCATION[*]} ] && send_location "${USER[ID]}" "${LOCATION[LATITUDE]}" "${LOCATION[LONGITUDE]}"
 

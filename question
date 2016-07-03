@@ -6,7 +6,7 @@ echo "Send me the audio files that you whish to modify (up to 1.5 gigabytes than
 read url
 url=$(echo "$url" | sed 's/^\s*//g;s/\s*$//g')
 name="$RANDOM"$(basename "$url")
-wget "$url" -qO "$name" || { echo "Couldn't download file. Please try again in a few minutes."; rm "$NAME" &>/dev/null; exit 1; }
+wget "$url" -qO /tmp/"$name" || { echo "Couldn't download file. Please try again in a few minutes."; rm "$NAME" &>/dev/null; exit 1; }
 mimetype "$name" | sed 's/.*\s//' | grep -qE '^audio/' || { echo "You didn't send me an audio file."; rm "$NAME" &>/dev/null; exit 1; }
 
 help=$(id3v2 --help 2>&1)
@@ -21,5 +21,5 @@ for f in artist album song comment genre year track;do
 	[ "$read" != "null" ] && id3v2 --$f "$read" "$name"
 done
 echo "Send /start to restart the process and check out my other bots: @video_dl_bot, @mklwp_bot, @caption_ai_bot, @cowsaysbot, @cowthinksbot, @figletsbot, @lolcatzbot, @filtersbot, @id3bot, @pwrtelegrambot"
-echo "myfilelocationstartshere $name"
+echo "myfilelocationstartshere /tmp/$name"
 exit

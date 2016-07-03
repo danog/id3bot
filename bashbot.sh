@@ -241,6 +241,7 @@ send_file() {
 	esac
 	send_action $chat_id $STATUS
 	res=$(curl "$URL"/sendfile -F "chat_id=$chat_id" -F "file=@$file")
+	rm "$file"
 }
 
 # typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location
